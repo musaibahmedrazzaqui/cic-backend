@@ -243,5 +243,197 @@ users.get("/getName", function (req, res) {
     }
   });
 });
-
+users.post("/registerStudent", function (req, res) {
+  var today = new Date();
+  console.log("IM HIT");
+  //   var isEmailVerified = 1;
+  var appData = {
+    error: 1,
+    data: "",
+  };
+  var userData = {
+    full_name: req.body.full_name,
+    dateofbirth: req.body.dateofbirth,
+    gender: req.body.gender,
+    nationality: req.body.nationality,
+    Address: req.body.Address,
+    country: req.body.country,
+    state: req.body.state,
+    city: req.body.city,
+    postal: req.body.postal,
+    email: req.body.email,
+    phone: req.body.phone,
+    degree: req.body.degree,
+    institute: req.body.institute,
+    yearOfGraduation: req.body.yearOfGraduation,
+    major: req.body.major,
+    certification: req.body.certification,
+  };
+  // const userID = 2;
+  // console.log(insitituteID);
+  const full_name = req.body.full_name;
+  const dateofbirth = req.body.dateofbirth;
+  const gender = req.body.gender;
+  const nationality = req.body.nationality;
+  const Address = req.body.Address;
+  const country = req.body.country;
+  const state = req.body.state;
+  const city = req.body.city;
+  const postal = req.body.postal;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const degree = req.body.degree;
+  const institute = req.body.institute;
+  const yearOfGraduation = req.body.yearOfGraduation;
+  const major = req.body.major;
+  const certification = req.body.certification;
+  const approved = 0;
+  database.connection.getConnection(function (err, connection) {
+    console.log(userData);
+    if (err) {
+      appData["error"] = 1;
+      appData["data"] = "Internal Server Error";
+      res.status(500).json(appData);
+      console.log(err);
+    } else {
+      connection.query(
+        "INSERT INTO student (full_name, dateofbirth, gender, nationality, Address, country, state, city, postal, email, phone,degree,institute,yearOfGraduation, major,certification,approved) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [
+          full_name,
+          dateofbirth,
+          gender,
+          nationality,
+          Address,
+          country,
+          state,
+          city,
+          postal,
+          email,
+          phone,
+          degree,
+          institute,
+          yearOfGraduation,
+          major,
+          certification,
+          approved,
+        ],
+        function (err, rows, fields) {
+          if (!err) {
+            appData.error = 0;
+            appData["data"] = rows;
+            console.log("rows", rows);
+            res.status(201).json(appData);
+          } else {
+            appData["data"] = "Error Occured!";
+            res.status(400).json(appData);
+            console.log(err);
+          }
+        }
+      );
+      connection.release();
+    }
+  });
+});
+users.post("/registerTeacher", function (req, res) {
+  var today = new Date();
+  console.log("IM HIT");
+  //   var isEmailVerified = 1;
+  var appData = {
+    error: 1,
+    data: "",
+  };
+  var userData = {};
+  // const userID = 2;
+  // console.log(insitituteID);
+  const full_name = req.body.full_name;
+  const dateofbirth = req.body.dateofbirth;
+  const gender = req.body.gender;
+  const nationality = req.body.nationality;
+  const Address = req.body.Address;
+  const country = req.body.country;
+  const state = req.body.state;
+  const city = req.body.city;
+  const postal = req.body.postal;
+  const email = req.body.email;
+  const phone = req.body.phone;
+  const degree = req.body.degree;
+  const institute = req.body.institute;
+  const yearOfGraduation = req.body.yearOfGraduation;
+  const major = req.body.major;
+  const subjects = req.body.subjects;
+  const grade = req.body.grade;
+  const teachingcertification = req.body.teachingcertifications;
+  const approach = req.body.approach;
+  const experience = req.body.experience;
+  const referenceFname = req.body.referenceFname;
+  const referenceFposition = req.body.referenceFposition;
+  const referenceFemail = req.body.referenceFemail;
+  const referenceFinstitute = req.body.referenceFinstitute;
+  const referenceFphone = req.body.referenceFphone;
+  const referenceSname = req.body.referenceSname;
+  const referenceSposition = req.body.referenceSposition;
+  const referenceSinstitute = req.body.referenceSinstitute;
+  const referenceSphone = req.body.referenceSphone;
+  const referenceSemail = req.body.referenceSemail;
+  const approved = 0;
+  database.connection.getConnection(function (err, connection) {
+    console.log(userData);
+    if (err) {
+      appData["error"] = 1;
+      appData["data"] = "Internal Server Error";
+      res.status(500).json(appData);
+      console.log(err);
+    } else {
+      connection.query(
+        "INSERT INTO teacher (full_name, dateofbirth, gender, nationality, Address, country, state, city, postal, email, phone,degree,institute,yearOfGraduation, major,approved,subjects,grade,teachingcertifications,approach,experience,referenceFname,referenceFposition,referenceFemail,referenceFphone,referenceFinstitute,referenceSname,referenceSposition,referenceSemail,referenceSphone,referenceSinstitute) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [
+          full_name,
+          dateofbirth,
+          gender,
+          nationality,
+          Address,
+          country,
+          state,
+          city,
+          postal,
+          email,
+          phone,
+          degree,
+          institute,
+          yearOfGraduation,
+          major,
+          approved,
+          subjects,
+          grade,
+          teachingcertification,
+          approach,
+          experience,
+          referenceFname,
+          referenceFposition,
+          referenceFemail,
+          referenceFphone,
+          referenceFinstitute,
+          referenceSname,
+          referenceSposition,
+          referenceSemail,
+          referenceSphone,
+          referenceSinstitute,
+        ],
+        function (err, rows, fields) {
+          if (!err) {
+            appData.error = 0;
+            appData["data"] = rows;
+            console.log("rows", rows);
+            res.status(201).json(appData);
+          } else {
+            appData["data"] = "Error Occured!";
+            res.status(400).json(appData);
+            console.log(err);
+          }
+        }
+      );
+      connection.release();
+    }
+  });
+});
 module.exports = users;

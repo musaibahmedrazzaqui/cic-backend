@@ -10,45 +10,6 @@ const { query } = require("express");
 mailer.use(cors());
 mailer.use(bodyParser.json());
 // mailer.use(bodyParser.json());
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "pmifyp@gmail.com",
-    pass: "zhdlzpsjqbdajagc",
-  },
-  from: "pmifyp@gmail.com",
-});
-setInterval(() => {
-  const query = `SELECT * FROM passengerrides join user on user.userID=passengerrides.userID WHERE TIMESTAMPDIFF(MINUTE, createdAt, NOW()) > 5 and passengerrides.idpassengerrides NOT IN (Select idpassengerrides from ridereqpassenger)`;
-  database.connection.getConnection(function (err, connection) {
-    connection.query(query, (err, results) => {
-      if (err) throw err;
-      if (results.length > 0) {
-        const deleteQuery = `DELETE FROM passengerrides WHERE TIMESTAMPDIFF(MINUTE, createdAt, NOW()) > 5 and passengerrides.idpassengerrides NOT IN (Select idpassengerrides from ridereqpassenger) `;
-        connection.query(deleteQuery, (err, result) => {
-          if (err) throw err;
-          console.log(`Deleted ${result.affectedRows} rows`);
-          results.forEach((entry) => {
-            const mailOptions = {
-              from: "Pool Me In Platform <pmifyp@gmail.com>",
-              to: entry.emailID,
-              subject: "POOL ME IN-Your request has been deleted",
-              html: `<p style="font-size: 16px;">Hello, ${entry.firstName},</p>
-                 <p style="font-size: 16px;">Your request has been deleted because no driver accepted it within five minutes. You can always try our Take a Ride option which enables YOU to request a ride on driver created rides!</p> <p style="font-size: 16px;">Thankyou for using our platform</p>`,
-            };
-            transporter.sendMail(mailOptions, (err, info) => {
-              if (err) throw err;
-              console.log(`Email sent to ${entry.emailID}: ${info.response}`);
-            });
-            console.log("Entry", entry);
-          });
-        });
-      } else {
-        console.log("No entries to delete");
-      }
-    });
-  });
-}, 300000);
 
 mailer.post("/send-email-referral", (req, res) => {
   const FromUserID = req.body.FromUserID;
