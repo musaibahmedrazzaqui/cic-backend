@@ -215,7 +215,7 @@ users.get("/verify-email/:email", function (req, res) {
     }
   });
 });
-users.get("/getName", function (req, res) {
+users.get("/getstudentcount", function (req, res) {
   var appData = {};
   console.log("sdaaaaaaaaa");
   // var emailID = req.body.emailID;
@@ -226,19 +226,119 @@ users.get("/getName", function (req, res) {
       console.log("sdaaaaaaaaa");
       res.status(500).json(appData);
     } else {
-      connection.query("SELECT * FROM roles", [], function (err, rows, fields) {
-        if (!err) {
-          appData["error"] = 0;
-          appData["data"] = rows;
-          res.status(200).json(appData);
-          console.log(rows);
-        } else {
-          appData["data"] = "No data found";
-          res.status(204).json(appData);
-          console.log(err);
-          console.log(res);
+      connection.query(
+        "SELECT * FROM student where approved=0",
+        [],
+        function (err, rows, fields) {
+          if (!err) {
+            appData["error"] = 0;
+            appData["data"] = rows.length;
+            res.status(200).json(appData);
+            console.log(rows);
+          } else {
+            appData["data"] = "No data found";
+            res.status(204).json(appData);
+            console.log(err);
+            console.log(res);
+          }
         }
-      });
+      );
+      connection.release();
+    }
+  });
+});
+users.get("/gettrainercount", function (req, res) {
+  var appData = {};
+  console.log("sdaaaaaaaaa");
+  // var emailID = req.body.emailID;
+  database.connection.getConnection(function (err, connection) {
+    if (err) {
+      appData["error"] = 1;
+      appData["data"] = "Internal Server Error";
+      console.log("sdaaaaaaaaa");
+      res.status(500).json(appData);
+    } else {
+      connection.query(
+        "SELECT * FROM teacher where approved=0",
+        [],
+        function (err, rows, fields) {
+          if (!err) {
+            appData["error"] = 0;
+            appData["data"] = rows.length;
+            res.status(200).json(appData);
+            console.log(rows);
+          } else {
+            appData["data"] = "No data found";
+            res.status(204).json(appData);
+            console.log(err);
+            console.log(res);
+          }
+        }
+      );
+      connection.release();
+    }
+  });
+});
+users.get("/getapprovedtrainercount", function (req, res) {
+  var appData = {};
+  console.log("sdaaaaaaaaa");
+  // var emailID = req.body.emailID;
+  database.connection.getConnection(function (err, connection) {
+    if (err) {
+      appData["error"] = 1;
+      appData["data"] = "Internal Server Error";
+      console.log("sdaaaaaaaaa");
+      res.status(500).json(appData);
+    } else {
+      connection.query(
+        "SELECT * FROM teacher where approved=1",
+        [],
+        function (err, rows, fields) {
+          if (!err) {
+            appData["error"] = 0;
+            appData["data"] = rows.length;
+            res.status(200).json(appData);
+            console.log(rows);
+          } else {
+            appData["data"] = "No data found";
+            res.status(204).json(appData);
+            console.log(err);
+            console.log(res);
+          }
+        }
+      );
+      connection.release();
+    }
+  });
+});
+users.get("/getapprovedstudentcount", function (req, res) {
+  var appData = {};
+  console.log("sdaaaaaaaaa");
+  // var emailID = req.body.emailID;
+  database.connection.getConnection(function (err, connection) {
+    if (err) {
+      appData["error"] = 1;
+      appData["data"] = "Internal Server Error";
+      console.log("sdaaaaaaaaa");
+      res.status(500).json(appData);
+    } else {
+      connection.query(
+        "SELECT * FROM student where approved=1",
+        [],
+        function (err, rows, fields) {
+          if (!err) {
+            appData["error"] = 0;
+            appData["data"] = rows.length;
+            res.status(200).json(appData);
+            console.log(rows);
+          } else {
+            appData["data"] = "No data found";
+            res.status(204).json(appData);
+            console.log(err);
+            console.log(res);
+          }
+        }
+      );
       connection.release();
     }
   });
